@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>競技場スコアシミュレーター</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="app-root">
+
+        <!-- ヘッダー -->
+        <div class="app-header">
+            <h1>競技場スコアシミュレーター</h1>
+            <button id="reset-button">リセット・再読み込み</button>
+        </div>
+
+        <div id="courses">
+
+            <!-- ===== コース共通構造 ===== -->
+            <!-- data-course: short / mile / middle / long / dirt -->
+            <!-- ===== 短距離 ===== -->
+            <div class="course" data-course="short">
+                <div class="course-title">短距離</div>
+                <div class="slots">
+                    <div class="slot empty" data-slot-index="0">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="1">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="2">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="3">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="4">
+                        <div class="empty-label">＋</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== マイル ===== -->
+            <div class="course" data-course="mile">
+                <div class="course-title">マイル</div>
+                <div class="slots">
+                    <div class="slot empty" data-slot-index="0">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="1">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="2">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="3">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="4">
+                        <div class="empty-label">＋</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== 中距離 ===== -->
+            <div class="course" data-course="middle">
+                <div class="course-title">中距離</div>
+                <div class="slots">
+                    <div class="slot empty" data-slot-index="0">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="1">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="2">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="3">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="4">
+                        <div class="empty-label">＋</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== 長距離 ===== -->
+            <div class="course" data-course="long">
+                <div class="course-title">長距離</div>
+                <div class="slots">
+                    <div class="slot empty" data-slot-index="0">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="1">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="2">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="3">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="4">
+                        <div class="empty-label">＋</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ダート ===== -->
+            <div class="course" data-course="dirt">
+                <div class="course-title">ダート</div>
+                <div class="slots">
+                    <div class="slot empty" data-slot-index="0">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="1">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="2">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="3">
+                        <div class="empty-label">＋</div>
+                    </div>
+                    <div class="slot empty" data-slot-index="4">
+                        <div class="empty-label">＋</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 編集モーダル ===== -->
+        <div id="edit-modal" class="modal hidden" data-course="" data-slot-index="">
+
+            <div class="modal-backdrop"></div>
+
+            <div class="modal-content">
+
+                <h2>ウマ娘登録</h2>
+
+                <section>
+                    <label>
+                        表示名
+                        <input type="text" id="input-name">
+                    </label>
+
+                    <label>
+                        脚質
+                        <select id="input-style">
+                            <option value="escape">逃げ</option>
+                            <option value="leading">先行</option>
+                            <option value="between">差し</option>
+                            <option value="chasing">追込</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        賢さ
+                        <input type="number" id="input-wisdom" min="0" , max="2000">
+                    </label>
+
+                    <label>
+                        <input type="checkbox" id="input-ace">
+                        エース
+                    </label>
+                </section>
+
+                <section>
+                    <h3>固有スキル</h3>
+
+                    <label>
+                        レアリティ
+                        <select id="input-unique-rarity">
+                            <option value="high">★★★以上</option>
+                            <option value="low">★★以下</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Lv
+                        <select id="input-unique-level">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4" selected>4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        発動回数
+                        <select id="input-unique-activation">
+                            <option value="0">0回</option>
+                            <option value="1" selected>1回</option>
+                            <option value="2">2回</option>
+                        </select>
+                    </label>
+                </section>
+
+                <section>
+                    <h3>通常スキル</h3>
+
+                    <label>
+                        金・進化・継承進化
+                        <input type="number" id="input-gold-skill" min="0">
+                    </label>
+
+                    <label>
+                        白・継承(１回発動)
+                        <input type="number" id="input-white-skill" min="0">
+                    </label>
+
+                    <label>
+                        白・継承(２回発動)
+                        <input type="number" id="input-inherit-skill" min="0">
+                    </label>
+                </section>
+
+                <section>
+                    <label>
+                        <input type="checkbox" id="input-start-dash">
+                        スタートダッシュ
+                    </label>
+                </section>
+
+                <div class="modal-actions">
+                    <button id="modal-delete" class="danger">削除</button>
+                    <button id="modal-cancel">キャンセル</button>
+                    <button id="modal-save">保存</button>
+                </div>
+
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </div>
+</body>
+
+</html>
