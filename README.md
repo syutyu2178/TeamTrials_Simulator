@@ -1,0 +1,2 @@
+# TeamTrials_Simulator
+ウマ娘の競技場スコアシミュレーター
