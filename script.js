@@ -75,8 +75,6 @@ function fillForm(data) {
     data.whiteDoubleSkill ?? 0;
   document.getElementById("input-white-skill").value =
     data.whiteSkill ?? 0;
-  document.getElementById("input-inherit-skill").value =
-    data.inheritSkill ?? 0;
 }
 
 
@@ -504,3 +502,4 @@ resetButton.addEventListener("click", () => {
   // ほぼ Ctrl + F5 相当
   location.reload();
 });
+
