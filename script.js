@@ -51,12 +51,34 @@ cancelButton.addEventListener("click", closeModal);
 // 背景クリックで閉じる
 modalBackdrop.addEventListener("click", closeModal);
 
-// フォームにデータを埋める
+// モーダルのフォームにデータを埋める
 function fillForm(data) {
-  document.getElementById("input-name").value = data.name;
-  document.getElementById("input-style").value = data.style;
-  document.getElementById("input-ace").checked = data.isAce;
+  document.getElementById("input-name").value = data.name ?? "";
+  document.getElementById("input-style").value = data.style ?? "escape";
+  document.getElementById("input-wisdom").value = data.wisdom ?? 0;
+
+  document.getElementById("input-ace").checked = data.isAce ?? false;
+  document.getElementById("input-start-dash").checked = data.startDash ?? false;
+
+  document.getElementById("input-unique-rarity").value =
+    data.uniqueRarity ?? "high";
+  document.getElementById("input-unique-level").value =
+    data.uniqueLevel ?? 4;
+  document.getElementById("input-unique-activation").value =
+    data.uniqueActivation ?? 0;
+
+  document.getElementById("input-gold-double-skill").value =
+    data.goldDoubleSkill ?? 0;
+  document.getElementById("input-gold-skill").value =
+    data.goldSkill ?? 0;
+  document.getElementById("input-white-double-skill").value =
+    data.whiteDoubleSkill ?? 0;
+  document.getElementById("input-white-skill").value =
+    data.whiteSkill ?? 0;
+  document.getElementById("input-inherit-skill").value =
+    data.inheritSkill ?? 0;
 }
+
 
 // フォームをクリア
 function clearForm() {
@@ -219,9 +241,12 @@ function calcActivationRate(wisdom) {
       ? wisdom
       : 1200 + (wisdom - 1200) / 2;
 
-  return (100 - 9000 / effectiveWisdom) / 100;
+  // 発動率計算式
+  const activationRate = (100 - (9000 / effectiveWisdom)) / 100;
+  return activationRate;
 }
 
+// スコア計算
 function calculateScore(data) {
   let score = 0;
 
