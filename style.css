@@ -86,7 +86,7 @@ h1 {
 .course {
     background: #ffffff;
     border-radius: 8px;
-    width: 180px;
+    width: 200px;
     padding: 8px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
@@ -145,7 +145,7 @@ h1 {
     background: #f7f7f7;
 }
 
-/* ===== ヘッダ（脚質・ACE） ===== */
+/* ===== ヘッダ（脚質・エース） ===== */
 .slot-header {
     display: flex;
     align-items: center;
@@ -155,7 +155,7 @@ h1 {
 
 /* ===== 脚質ラベル ===== */
 .style-label {
-    font-size: 11px;
+    font-size: 15px;
     padding: 2px 6px;
     border-radius: 999px;
     color: #fff;
@@ -180,17 +180,18 @@ h1 {
 
 /* ===== ACE ===== */
 .ace-label {
-    font-size: 10px;
+    font-size: 15px;
     font-weight: bold;
     color: #fff;
     background: #2ecc71;
-    padding: 2px 6px;
+    padding: 2px 4px;
     border-radius: 4px;
+    line-height: 1;
 }
 
 /* ===== 名前 ===== */
 .slot-name {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: bold;
     margin-bottom: 2px;
     white-space: nowrap;
@@ -200,14 +201,14 @@ h1 {
 
 /* ===== スコア ===== */
 .slot-score {
-    font-size: 12px;
+    font-size: 15px;
     color: #444;
     text-align: right;
 }
 
 /* ===== 順位 ===== */
 .slot-rank {
-  font-size: 11px;
+  font-size: 15px;
   color: #666;
   text-align: right;
 }
@@ -238,7 +239,7 @@ h1 {
 .modal-content {
     position: relative;
     background: #ffffff;
-    width: 380px;
+    width: 450px;
     max-width: calc(100% - 32px);
     max-height: 90vh;
     overflow-y: auto;

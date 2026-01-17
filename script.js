@@ -141,9 +141,10 @@ saveButton.addEventListener("click", () => {
     uniqueLevel: Number(document.getElementById("input-unique-level").value),
     uniqueActivation: Number(document.getElementById("input-unique-activation").value),
 
+    goldDoubleSkill: Number(document.getElementById("input-gold-double-skill").value) || 0,
+    whiteDoubleSkill: Number(document.getElementById("input-white-double-skill").value) || 0,
     goldSkill: Number(document.getElementById("input-gold-skill").value) || 0,
     whiteSkill: Number(document.getElementById("input-white-skill").value) || 0,
-    inheritSkill: Number(document.getElementById("input-inherit-skill").value) || 0
   };
 
   // スコア計算
@@ -178,7 +179,7 @@ function fillSlot(slot, data) {
       <span class="style-label ${data.style}">
         ${styleTextMap[data.style]}
       </span>
-      ${data.isAce ? `<span class="ace-label">ACE</span>` : ""}
+      ${data.isAce ? `<span class="ace-label">エース</span>` : ""}
     </div>
     <div class="slot-name">${data.name}</div>
     <div class="slot-score">${data.score.toLocaleString()} pt</div>
@@ -238,9 +239,10 @@ function calculateScore(data) {
   /* ===== 通常スキル ===== */
   const rate = calcActivationRate(data.wisdom);
 
+  score += rate * 1200 * 2 * data.goldDoubleSkill;
   score += rate * 1200 * data.goldSkill;
+  score += rate * 500 * 2 * data.whiteDoubleSkill;
   score += rate * 500 * data.whiteSkill;
-  score += rate * 500 * 2 * data.inheritSkill;
 
   /* ===== 立ち回り ===== */
   if (data.startDash) {
@@ -410,9 +412,10 @@ function loadFromLocalStorage() {
       uniqueLevel: data.uniqueLevel ?? 4,
       uniqueActivation: data.uniqueActivation ?? 0,
 
+      goldDoubleSkill: data.goldDoubleSkill ?? 0,
       goldSkill: data.goldSkill ?? 0,
-      whiteSkill: data.whiteSkill ?? 0,
-      inheritSkill: data.inheritSkill ?? 0
+      whiteDoubleSkill: data.whiteDoubleSkill ?? 0,
+      whiteSkill: data.whiteSkill ?? 0
     };
 
     // ★ 必ず再計算（アップデート耐性）

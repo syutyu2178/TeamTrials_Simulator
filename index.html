@@ -143,7 +143,7 @@
                 <section>
                     <label>
                         表示名
-                        <input type="text" id="input-name">
+                        <input type="text" id="input-name", maxlength="15">
                     </label>
 
                     <label>
@@ -204,8 +204,18 @@
                     <h3>通常スキル</h3>
 
                     <label>
-                        金・進化・継承進化
+                        金・進化・継承進化(２回発動)
+                        <input type="number" id="input-gold-double-skill" min="0">
+                    </label>
+
+                    <label>
+                        金・進化・継承進化(１回発動)
                         <input type="number" id="input-gold-skill" min="0">
+                    </label>
+
+                    <label>
+                        白・継承(２回発動)
+                        <input type="number" id="input-white-double-skill" min="0">
                     </label>
 
                     <label>
@@ -213,10 +223,6 @@
                         <input type="number" id="input-white-skill" min="0">
                     </label>
 
-                    <label>
-                        白・継承(２回発動)
-                        <input type="number" id="input-inherit-skill" min="0">
-                    </label>
                 </section>
 
                 <section>
@@ -239,6 +245,4 @@
     </div>
 </body>
 
-
 </html>
-
