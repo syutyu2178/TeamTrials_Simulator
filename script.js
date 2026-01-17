@@ -241,8 +241,10 @@ function calcActivationRate(wisdom) {
       ? wisdom
       : 1200 + (wisdom - 1200) / 2;
 
-  // 発動率計算式
+  // 発動率計算式、マイナスになる場合は0%
   const activationRate = (100 - (9000 / effectiveWisdom)) / 100;
+  if (activationRate < 0) return 0;
+
   return activationRate;
 }
 
