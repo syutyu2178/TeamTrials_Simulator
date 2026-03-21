@@ -36,6 +36,13 @@ function openModal(course, slotIndex) {
 
   deleteButton.style.display = hasData ? "inline-block" : "none";
 
+  // スキルカウント結果の取り込みUI表示判定
+  const pendingRaw = localStorage.getItem('uma-arena-pending-skills');
+  const importArea = document.getElementById('import-skill-area');
+  if (importArea) {
+    importArea.style.display = pendingRaw ? "block" : "none";
+  }
+
   modal.classList.remove("hidden");
 }
 
@@ -50,6 +57,26 @@ cancelButton.addEventListener("click", closeModal);
 
 // 背景クリックで閉じる
 modalBackdrop.addEventListener("click", closeModal);
+
+// スキルカウント連携ボタン
+const btnImportSkills = document.getElementById('btn-import-skills');
+if (btnImportSkills) {
+  btnImportSkills.addEventListener('click', () => {
+    const raw = localStorage.getItem('uma-arena-pending-skills');
+    if (raw) {
+      try {
+        const pd = JSON.parse(raw);
+        document.getElementById('input-gold-skill').value = pd.goldSkill || 0;
+        document.getElementById('input-white-skill').value = pd.whiteSkill || 0;
+        // 反映後、確認メッセージ表示
+        alert("スキルカウント結果（金: " + (pd.goldSkill||0) + ", 白: " + (pd.whiteSkill||0) + "）を反映しました。\n内容を確認して「保存」を押してください。");
+        // 一度反映したら保留データを削除
+        localStorage.removeItem('uma-arena-pending-skills');
+        document.getElementById('import-skill-area').style.display = 'none';
+      } catch(e) { console.error("スキルデータパースエラー", e); }
+    }
+  });
+}
 
 // モーダルのフォームにデータを埋める
 function fillForm(data) {
@@ -75,6 +102,8 @@ function fillForm(data) {
     data.whiteDoubleSkill ?? 0;
   document.getElementById("input-white-skill").value =
     data.whiteSkill ?? 0;
+  document.getElementById("input-inherit-skill").value =
+    data.inheritSkill ?? 0;
 }
 
 
@@ -482,6 +511,14 @@ function openModal(course, slotIndex) {
     : "none";
 
   resetButton.disabled = true;   // ★ 追加
+
+  // スキルカウント結果の取り込みUI表示判定
+  const pendingRaw = localStorage.getItem('uma-arena-pending-skills');
+  const importArea = document.getElementById('import-skill-area');
+  if (importArea) {
+    importArea.style.display = pendingRaw ? "block" : "none";
+  }
+
   modal.classList.remove("hidden");
 }
 
@@ -503,3 +540,56 @@ resetButton.addEventListener("click", () => {
   location.reload();
 });
 
+// ===============================
+// スキルカウントページからの自動連携処理
+// ===============================
+setTimeout(() => {
+  const pendingRaw = sessionStorage.getItem('pendingSkills');
+  if (pendingRaw) {
+    try {
+      const pd = JSON.parse(pendingRaw);
+      const distanceMap = {
+        '短距離': 'short',
+        'マイル': 'mile',
+        '中距離': 'middle',
+        '長距離': 'long',
+        'ダート': 'dirt'
+      };
+      
+      const courseStr = distanceMap[pd.distance];
+      if (!courseStr) throw new Error("不正な距離指定");
+
+      // 該当距離の登録数をチェック
+      let filledCount = 0;
+      let emptySlotIndex = -1;
+      
+      for (let i = 0; i < 5; i++) {
+        const key = `${courseStr}-${i}`;
+        if (slotDataMap.has(key)) {
+          filledCount++;
+        } else {
+          if (emptySlotIndex === -1) {
+            emptySlotIndex = i; // 最初の空きスロット
+          }
+        }
+      }
+
+      if (filledCount >= 5) {
+        alert(`指定された距離（${pd.distance}）はすでに5人登録されています。\nシミュレーター上でキャラを1人削除してから再度お試しください。`);
+      } else {
+        // 空きスロットを開いて値をセット
+        openModal(courseStr, emptySlotIndex);
+        clearForm();
+        
+        document.getElementById('input-gold-skill').value = pd.goldSkill || 0;
+        document.getElementById('input-white-skill').value = pd.whiteSkill || 0;
+        
+        alert(`スキルカウント結果（進化＆金: ${pd.goldSkill}, 白: ${pd.whiteSkill}）を ${pd.distance} の新しい枠に反映しました。\n内容を確認して「保存」を押してください。`);
+      }
+    } catch(e) {
+      console.error("スキルデータパースエラー", e);
+    } finally {
+      sessionStorage.removeItem('pendingSkills');
+    }
+  }
+}, 100);

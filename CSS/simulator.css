@@ -5,19 +5,13 @@
     box-sizing: border-box;
 }
 
-/* 画面中央配置 */
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center; /* 横中央 */
+/* シミュレーター要素を中央寄せ */
+.app-root {
+    width: max-content;
+    max-width: 100%;
+    margin: 0 auto;
 }
 
-/* アプリ全体 */
-.app-root {
-  width: max-content;      /* 中身サイズに合わせる */
-  max-width: 100vw;
-}
 
 /* スマホ対策（はみ出し防止） */
 @media (max-height: 700px) {
@@ -29,12 +23,13 @@ body {
 /* ===== 全体 ===== */
 body {
     margin: 0;
-    padding: 16px;
+    padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
         "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     background: #f5f5f5;
     color: #222;
 }
+
 
 /* ===== 見出し ===== */
 h1 {

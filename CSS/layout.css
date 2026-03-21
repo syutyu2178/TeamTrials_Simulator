@@ -1,0 +1,5 @@
+/* サイドバーとページのラッパー用 */
+.layout-root {
+    display: flex;
+    min-height: 100vh;
+}
