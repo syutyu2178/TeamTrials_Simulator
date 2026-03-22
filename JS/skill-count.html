@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>競技場スコアシミュレーター</title>
+    <!-- 共通CSS -->
+    <link rel="stylesheet" href="CSS/sidebar.css">
+    <link rel="stylesheet" href="CSS/base.css" />
+
+    <!-- ページ固有 -->
+    <link rel="stylesheet" href="CSS/skill-count.css" />
+</head>
+
+<body>
+    <!-- サイドバー注入先 -->
+    <div id="sidebar-root"></div>
+
+    <div class="layout-root">
+
+        <main class="main-area">
+            <div class="container">
+                <h1>画像結合＆スキルカウントツール</h1>
+                <p class="description">
+                    複数のスクリーンショットをアップロードして、スクロール領域を自動検出し、重複部分を結合して縦長画像を生成します。<br>
+                    さらに結合した画像から「金・進化スキル」「白・継承スキル」の数を自動で検出し、シミュレーターへ反映できます。
+                </p>
+
+                <div class="section">
+                    <div class="section-title">画像をアップロード</div>
+                    <p class="description">
+                        スクリーンショットのスキルは１列以上重複させたうえで添付してください。<br>
+                    </p>
+                    <div class="upload-area" id="uploadArea">
+                        <p class="upload-text">ここにドラッグ＆ドロップ、クリックして選択、または <b>Ctrl+V</b> で貼り付けてください</p>
+                        <button class="upload-button">ファイルを選択</button>
+                        <input type="file" id="fileInput" multiple accept="image/*">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">アップロード済み画像</div>
+                    <div class="image-list" id="imageList"></div>
+                </div>
+
+
+
+                <div class="section">
+                    <div class="section-title">実行</div>
+                    <button class="action-button" id="mergeButton">画像を結合</button>
+                    <button class="action-button secondary" id="clearButton">リセット</button>
+                </div>
+
+                <div class="section" id="previewSection" style="display: none;">
+                    <div class="section-title">プレビューと解析結果</div>
+
+                    <div class="count-results" id="countResults" style="display: none;">
+                        <h3>スキルカウント結果</h3>
+                        <div class="count-values">
+                            <div class="count-gold">金・進化系: <span id="res-gold" class="count-number">0</span> 個</div>
+                            <div class="count-white">白・継承系: <span id="res-white" class="count-number">0</span> 個</div>
+                        </div>
+                        <div class="count-actions">
+                            <div class="target-distance-container">
+                                <label for="targetDistance" class="target-distance-label">反映先距離:</label>
+                                <select id="targetDistance" class="target-distance-select">
+                                    <option value="短距離">短距離</option>
+                                    <option value="マイル">マイル</option>
+                                    <option value="中距離">中距離</option>
+                                    <option value="長距離">長距離</option>
+                                    <option value="ダート">ダート</option>
+                                </select>
+                            </div>
+                            <button class="action-button send-simulator-button" id="sendToSimulatorButton">
+                                この結果をシミュレーターへ反映
+                            </button>
+                            <p class="note-text">※画像認識による推測値です。反映後に手動で微調整してください。</p>
+                        </div>
+                    </div>
+
+                    <div class="preview-container">
+                        <canvas id="previewCanvas"></canvas>
+                    </div>
+                    <button class="action-button secondary mt-15" id="downloadButton">PNG画像としてダウンロード</button>
+                </div>
+
+                <div class="progress-container" id="progressContainer" style="display: none;">
+                    <div class="progress-text" id="progressText">処理中...</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <div class="error-message" id="errorMessage" style="display: none;"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="JS/merge.js"></script>
+    <script src="JS/skill-count.js"></script>
+    <script src="components/sidebar.js"></script>
+</body>
+
+</html>

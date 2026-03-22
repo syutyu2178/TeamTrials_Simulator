@@ -33,6 +33,25 @@ document.addEventListener('DOMContentLoaded', () => {
         handleFiles(e.target.files);
     });
 
+    // クリップボードからの貼り付け(Ctrl+V)対応
+    window.addEventListener('paste', (e) => {
+        const items = e.clipboardData.items;
+        const files = [];
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf('image') !== -1) {
+                const blob = items[i].getAsFile();
+                if (blob) {
+                    // 貼り付けた画像に名前を付ける（任意）
+                    const file = new File([blob], `pasted_image_${Date.now()}_${i}.png`, { type: blob.type });
+                    files.push(file);
+                }
+            }
+        }
+        if (files.length > 0) {
+            handleFiles(files);
+        }
+    });
+
     function handleFiles(files) {
         Array.from(files).forEach(file => {
             if (file.type.startsWith('image/')) {
@@ -156,7 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     downloadButton.addEventListener('click', () => {
         const link = document.createElement('a');
-        link.download = 'merged_skills.png';
+        const d = new Date();
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        link.download = `merged_skills_${yyyy}${mm}${dd}.png`;
         link.href = previewCanvas.toDataURL('image/png');
         link.click();
     });
